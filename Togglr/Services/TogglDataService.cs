@@ -22,7 +22,11 @@ namespace Togglr.Services
 
         public int GetCount() => Items.Count;
 
-        public void Post(T item) => Items.Add(item);
+        public List<T> Post(T item)
+        {
+            Items.Add(item);
+            return Items;
+        }
 
         public bool Put(int id, T body)
         {
