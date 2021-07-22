@@ -12,13 +12,10 @@ namespace Togglr.Controllers
     [Route("[controller]")]
     public class TimeEntryController : ControllerBase
     {
-        // public HttpClient httpClient;
         readonly string timeEntryPath = "https://track.toggl.com/api/v9/me/time_entries?since=";
         public TimeEntryService timeEntryService;
-        public TimeEntryController(HttpClient httpClient, string authHeaderScheme = "Basic", string authHeaderParameter = "YmZmYjI1NmVhNGE1MmU2ZTM3OGJkYmZkOWU4NDdkYmM6YXBpX3Rva2Vu")
+        public TimeEntryController()
         {
-            // this.httpClient = httpClient;
-            // httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(authHeaderScheme, authHeaderParameter);
             timeEntryService = new TimeEntryService(timeEntryPath);
         }
         [HttpGet]
