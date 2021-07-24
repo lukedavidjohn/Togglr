@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Togglr.Controllers;
+using Togglr.Models;
 using Togglr.Services;
 
 namespace Togglr
@@ -23,9 +25,9 @@ namespace Togglr
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Togglr", Version = "v1" });
             });
-            services.AddScoped<IProjectService, ProjectService>();
-            services.AddScoped<ITagService, TagService>();
-            services.AddScoped<ITaskService, TaskService>();
+            services.AddScoped<ITogglDataService<Project>, ProjectService>();
+            services.AddScoped<ITogglDataService<Tag>, TagService>();
+            services.AddScoped<ITogglDataService<Task>, TaskService>();
             // var endPointA = new Uri("http://localhost:58919/"); // this is the endpoint HttpClient will hit
             // HttpClient httpClient = new()
             // {

@@ -3,7 +3,7 @@ using Togglr.Models;
 
 namespace Togglr.Services
 {
-    public class TaskService : TogglDataService<Task>, ITaskService
+    public class TaskService : TogglDataService<Task>, ITogglDataService<Task>
     {
         public static List<Task> Tasks { get; set; }
         public TaskService() : base("./TogglData/Tasks.json")

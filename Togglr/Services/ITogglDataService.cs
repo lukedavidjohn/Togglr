@@ -15,8 +15,3 @@ namespace Togglr.Services
         public List<T> Post(T item);
     }
 }
-
-/*
-IProjectService = ProjectService
-
-*/
