@@ -1,7 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Mvc;
 using Togglr.Models;
 using Togglr.Services;
@@ -13,16 +10,20 @@ namespace Togglr.Controllers
     public class TimeEntryController : ControllerBase
     {
         readonly string timeEntryPath = "https://track.toggl.com/api/v9/me/time_entries?since=";
+
         public TimeEntryService timeEntryService;
+
         public TimeEntryController()
         {
             timeEntryService = new TimeEntryService(timeEntryPath);
         }
+
         [HttpGet]
         public ActionResult<List<TimeEntry>> GetAll()
         {
             return timeEntryService.GetAll();
         }
+        
         [HttpGet("{id}")]
         public ActionResult<TimeEntry> Get(int id)
         {
