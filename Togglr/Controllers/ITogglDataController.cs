@@ -8,5 +8,6 @@ namespace Togglr.Controllers
     {
         ActionResult<List<T>> GetAll();
         ActionResult<T> Get(string argument);
+        ActionResult<List<T>> Post(T body);
     }
 }

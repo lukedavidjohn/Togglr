@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Togglr.Models;
@@ -53,10 +52,10 @@ namespace Togglr.Controllers
             return project;
         }
         [HttpPost]
-        public ActionResult<List<Project>> Post(Project project)
+        public ActionResult<List<Project>> Post(Project body)
         {
-            var items = projectService.Post(project);
-            return items;
+            var projects = projectService.Post(body);
+            return Created("", projects);
         }
     }
 }

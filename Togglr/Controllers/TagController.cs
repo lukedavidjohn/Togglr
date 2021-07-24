@@ -38,5 +38,11 @@ namespace Togglr.Controllers
             }
             return tag;
         }
+
+        public ActionResult<List<Tag>> Post(Tag body)
+        {
+            var tags = tagService.Post(body);
+            return Created("", tags);
+        }
     }
 }

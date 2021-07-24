@@ -38,5 +38,11 @@ namespace Togglr.Controllers
             }
             return task;
         }
+
+        public ActionResult<List<Task>> Post(Task body)
+        {
+            var tasks = taskService.Post(body);
+            return Created("", tasks);
+        }
     }
 }
