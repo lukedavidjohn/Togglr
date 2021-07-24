@@ -9,16 +9,14 @@ namespace Togglr.Controllers
     [Route("[controller]")]
     public class ProjectController : ControllerBase, ITogglDataController<Project>
     {
-        readonly string projectFilePath = "./TogglData/Projects.json";
-        readonly ProjectService projectService;
-        public ProjectController()
+        readonly IProjectService _projectService;
+        public ProjectController(IProjectService projectService)
         {
-            projectService = new ProjectService(projectFilePath);
+            _projectService = projectService;
         }
 
-        [HttpGet]
-        public ActionResult<List<Project>> GetAll()
-        {
+        [HttpGet("~/[controller]/[action]")]
+        public ActionResult<List<Project>> GetAll() => _projectService.GetAll();
             // string authHeader = Request.Headers["Authorization"];
             // var user = UserService.GetByAuthToken(authHeader);
             // if (user == null)
@@ -29,8 +27,6 @@ namespace Togglr.Controllers
             // {
             //     return Unauthorized();
             // }
-            return projectService.GetAll();
-        }
 
         [HttpGet("{argument}")]
         public ActionResult<Project> Get(string argument)
@@ -40,10 +36,10 @@ namespace Togglr.Controllers
             switch (argumentIsInteger)
             {
                 case false:
-                    project = projectService.Get(argument);
+                    project = _projectService.Get(argument);
                     break;
                 case true:
-                    project = projectService.Get(argumentAsInteger);
+                    project = _projectService.Get(argumentAsInteger);
                     break;
             }
             if(project == null)
@@ -53,13 +49,13 @@ namespace Togglr.Controllers
             return project;
         }
 
-        [HttpGet]
-        public ActionResult<int> GetCount() => projectService.GetCount();
+        [HttpGet("~/[controller]/[action]")]
+        public ActionResult<int> GetCount() => _projectService.GetCount();
 
         [HttpPost]
         public ActionResult<List<Project>> Post(Project body)
         {
-            var projects = projectService.Post(body);
+            var projects = _projectService.Post(body);
             return Created("", projects);
         }
     }

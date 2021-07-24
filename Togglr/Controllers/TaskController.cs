@@ -9,14 +9,13 @@ namespace Togglr.Controllers
     [Route("[controller]")]
     public class TaskController : ControllerBase, ITogglDataController<Task>
     {
-        readonly string taskFilePath = "./TogglData/Tasks.json";
-        readonly TaskService taskService;
-        public TaskController()
+        readonly ITaskService _taskService;
+        public TaskController(ITaskService taskService)
         {
-            taskService = new TaskService(taskFilePath);
+            _taskService = taskService;
         }
-        [HttpGet]
-        public ActionResult<List<Task>> GetAll() => taskService.GetAll();
+        [HttpGet("~/[controller]/[action]")]
+        public ActionResult<List<Task>> GetAll() => _taskService.GetAll();
 
         [HttpGet("{argument}")]
         public ActionResult<Task> Get(string argument)
@@ -26,10 +25,10 @@ namespace Togglr.Controllers
             switch (argumentIsInteger)
             {
                 case false:
-                    task = taskService.Get(argument);
+                    task = _taskService.Get(argument);
                     break;
                 case true:
-                    task = taskService.Get(argumentAsInteger);
+                    task = _taskService.Get(argumentAsInteger);
                     break;
             }
             if(task == null)
@@ -39,12 +38,12 @@ namespace Togglr.Controllers
             return task;
         }
 
-        [HttpGet]
-        public ActionResult<int> GetCount() => taskService.GetCount();
-
+        [HttpGet("~/[controller]/[action]")]
+        public ActionResult<int> GetCount() => _taskService.GetCount();
+        [HttpPost]
         public ActionResult<List<Task>> Post(Task body)
         {
-            var tasks = taskService.Post(body);
+            var tasks = _taskService.Post(body);
             return Created("", tasks);
         }
     }

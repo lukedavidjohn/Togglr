@@ -9,14 +9,13 @@ namespace Togglr.Controllers
     [Route("[controller]")]
     public class TagController : ControllerBase, ITogglDataController<Tag>
     {
-        readonly string tagFilePath = "./TogglData/Tags.json";
-        readonly TagService tagService;
-        public TagController()
+        readonly ITagService _tagService;
+        public TagController(ITagService tagService)
         {
-            tagService = new TagService(tagFilePath);
+            _tagService = tagService;
         }
-        [HttpGet]
-        public ActionResult<List<Tag>> GetAll() => tagService.GetAll();
+        [HttpGet("~/[controller]/[action]")]
+        public ActionResult<List<Tag>> GetAll() => _tagService.GetAll();
 
         [HttpGet("{argument}")]
         public ActionResult<Tag> Get(string argument)
@@ -26,10 +25,10 @@ namespace Togglr.Controllers
             switch (argumentIsInteger)
             {
                 case false:
-                    tag = tagService.Get(argument);
+                    tag = _tagService.Get(argument);
                     break;
                 case true:
-                    tag = tagService.Get(argumentAsInteger);
+                    tag = _tagService.Get(argumentAsInteger);
                     break;
             }
             if(tag == null)
@@ -39,12 +38,12 @@ namespace Togglr.Controllers
             return tag;
         }
 
-        [HttpGet]
-        public ActionResult<int> GetCount() => tagService.GetCount();
-
+        [HttpGet("~/[controller]/[action]")]
+        public ActionResult<int> GetCount() => _tagService.GetCount();
+        [HttpPost]
         public ActionResult<List<Tag>> Post(Tag body)
         {
-            var tags = tagService.Post(body);
+            var tags = _tagService.Post(body);
             return Created("", tags);
         }
     }
