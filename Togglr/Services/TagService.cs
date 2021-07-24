@@ -1,11 +1,12 @@
+using System.Collections.Generic;
 using Togglr.Models;
 
 namespace Togglr.Services
 {
-    public class TagService : TogglDataService<Tag>
+    public class TagService : TogglDataService<Tag>, ITagService
     {
-        public TagService(string path) : base(path)
-        {
-        }
+        public static List<Tag> Tags { get; set; }
+        public TagService() : base("./TogglData/Tags.json")
+        {}
     }
 }
