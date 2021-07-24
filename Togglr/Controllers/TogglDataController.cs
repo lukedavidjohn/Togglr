@@ -7,16 +7,16 @@ namespace Togglr.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ProjectController : ControllerBase, ITogglDataController<Project>
+    public abstract class TogglDataController<T> : ControllerBase, ITogglDataController<T> where T : TogglData
     {
-        public ITogglDataService<Project> _projectService;
-        public ProjectController(ITogglDataService<Project> projectService)
+        public ITogglDataService<T> _togglDataService;
+        public TogglDataController(ITogglDataService<T> togglDataService)
         {
-            _projectService = projectService;
+            _togglDataService = togglDataService;
         }
 
         [HttpGet("~/[controller]/[action]")]
-        public ActionResult<List<Project>> GetAll() => _projectService.GetAll();
+        public virtual ActionResult<List<T>> GetAll() => _togglDataService.GetAll();
             // string authHeader = Request.Headers["Authorization"];
             // var user = UserService.GetByAuthToken(authHeader);
             // if (user == null)
@@ -29,33 +29,33 @@ namespace Togglr.Controllers
             // }
 
         [HttpGet("{argument}")]
-        public ActionResult<Project> Get(string argument)
+        public virtual ActionResult<T> Get(string argument)
         {
-            Project project;
+            T item;
             bool argumentIsInteger = int.TryParse(argument, out int argumentAsInteger);
             switch (argumentIsInteger)
             {
                 case false:
-                    project = _projectService.Get(argument);
+                    item = _togglDataService.Get(argument);
                     break;
                 case true:
-                    project = _projectService.Get(argumentAsInteger);
+                    item = _togglDataService.Get(argumentAsInteger);
                     break;
             }
-            if(project == null)
+            if(item == null)
             {
                 return NotFound();
             }
-            return project;
+            return item;
         }
 
         [HttpGet("~/[controller]/[action]")]
-        public ActionResult<int> GetCount() => _projectService.GetCount();
+        public virtual ActionResult<int> GetCount() => _togglDataService.GetCount();
 
         [HttpPost]
-        public ActionResult<List<Project>> Post(Project body)
+        public virtual ActionResult<List<T>> Post(T body)
         {
-            var projects = _projectService.Post(body);
+            var projects = _togglDataService.Post(body);
             return Created("", projects);
         }
     }

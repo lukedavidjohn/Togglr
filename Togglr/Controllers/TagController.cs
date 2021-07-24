@@ -9,42 +9,30 @@ namespace Togglr.Controllers
     [Route("[controller]")]
     public class TagController : ControllerBase, ITogglDataController<Tag>
     {
-        readonly ITagService _tagService;
-        public TagController(ITagService tagService)
+        public ITogglDataService<Tag> _tagService;
+        public TagController(ITogglDataService<Tag> tagService)
         {
             _tagService = tagService;
         }
-        [HttpGet("~/[controller]/[action]")]
-        public ActionResult<List<Tag>> GetAll() => _tagService.GetAll();
 
         [HttpGet("{argument}")]
         public ActionResult<Tag> Get(string argument)
         {
-            Tag tag;
-            bool argumentIsInteger = int.TryParse(argument, out int argumentAsInteger);
-            switch (argumentIsInteger)
-            {
-                case false:
-                    tag = _tagService.Get(argument);
-                    break;
-                case true:
-                    tag = _tagService.Get(argumentAsInteger);
-                    break;
-            }
-            if(tag == null)
-            {
-                return NotFound();
-            }
-            return tag;
+            throw new System.NotImplementedException();
         }
+        [HttpGet("~/[controller]/[action]")]
+        public ActionResult<List<Tag>> GetAll() => _tagService.GetAll();
 
         [HttpGet("~/[controller]/[action]")]
-        public ActionResult<int> GetCount() => _tagService.GetCount();
+        public ActionResult<int> GetCount()
+        {
+            throw new System.NotImplementedException();
+        }
+
         [HttpPost]
         public ActionResult<List<Tag>> Post(Tag body)
         {
-            var tags = _tagService.Post(body);
-            return Created("", tags);
+            throw new System.NotImplementedException();
         }
     }
 }

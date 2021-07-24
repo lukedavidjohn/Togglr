@@ -9,8 +9,8 @@ namespace Togglr.Controllers
     [Route("[controller]")]
     public class TaskController : ControllerBase, ITogglDataController<Task>
     {
-        readonly ITaskService _taskService;
-        public TaskController(ITaskService taskService)
+        public ITogglDataService<Task> _taskService;
+        public TaskController(ITogglDataService<Task> taskService)
         {
             _taskService = taskService;
         }

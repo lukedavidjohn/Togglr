@@ -4,10 +4,10 @@ using Togglr.Models;
 
 namespace Togglr.Controllers
 {
-    interface ITogglDataController<T> where T : TogglData
+    public interface ITogglDataController<T> where T : TogglData
     {
-        ActionResult<List<T>> GetAll();
         ActionResult<T> Get(string argument);
+        ActionResult<List<T>> GetAll();
         ActionResult<int> GetCount();
         ActionResult<List<T>> Post(T body);
     }
