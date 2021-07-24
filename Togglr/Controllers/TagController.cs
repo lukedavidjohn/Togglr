@@ -39,6 +39,9 @@ namespace Togglr.Controllers
             return tag;
         }
 
+        [HttpGet]
+        public ActionResult<int> GetCount() => tagService.GetCount();
+
         public ActionResult<List<Tag>> Post(Tag body)
         {
             var tags = tagService.Post(body);

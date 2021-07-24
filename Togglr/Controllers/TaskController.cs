@@ -39,6 +39,9 @@ namespace Togglr.Controllers
             return task;
         }
 
+        [HttpGet]
+        public ActionResult<int> GetCount() => taskService.GetCount();
+
         public ActionResult<List<Task>> Post(Task body)
         {
             var tasks = taskService.Post(body);

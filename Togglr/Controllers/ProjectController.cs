@@ -31,6 +31,7 @@ namespace Togglr.Controllers
             // }
             return projectService.GetAll();
         }
+
         [HttpGet("{argument}")]
         public ActionResult<Project> Get(string argument)
         {
@@ -51,6 +52,10 @@ namespace Togglr.Controllers
             }
             return project;
         }
+
+        [HttpGet]
+        public ActionResult<int> GetCount() => projectService.GetCount();
+
         [HttpPost]
         public ActionResult<List<Project>> Post(Project body)
         {
