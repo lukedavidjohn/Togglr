@@ -12,6 +12,6 @@ namespace Togglr.Controllers
 
         ActionResult<int> GetCount();
         
-        ActionResult<List<T>> Post(T body);
+        ActionResult<T> Post(T body);
     }
 }

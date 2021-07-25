@@ -53,10 +53,6 @@ namespace Togglr.Controllers
         public ActionResult<int> GetCount() => _togglDataService.GetCount();
 
         [HttpPost]
-        public ActionResult<List<T>> Post(T body)
-        {
-            var projects = _togglDataService.Post(body);
-            return Created("", projects);
-        }
+        public ActionResult<T> Post(T body) => Created("./Projects", _togglDataService.Post(body));
     }
 }

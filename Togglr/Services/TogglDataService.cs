@@ -25,10 +25,10 @@ namespace Togglr.Services
 
         public int GetCount() => Items.Count;
 
-        public List<T> Post(T item)
+        public T Post(T item)
         {
             Items.Add(item);
-            return Items;
+            return item;
         }
 
         public bool Put(int id, T body)

@@ -14,6 +14,6 @@ namespace Togglr.Services
 
         public int GetCount();
 
-        public List<T> Post(T item);
+        public T Post(T item);
     }
 }
