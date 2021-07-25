@@ -5,14 +5,16 @@ namespace Togglr.Utilities
 {
     public class JsonLoaderFromFile<T> : IJsonLoaderFromFile<T>
     {
+        readonly IStreamReaderUtility _streamReaderUtility;
         readonly IDeserializer _deserializer;
-        public JsonLoaderFromFile(IDeserializer deserializer)
+        public JsonLoaderFromFile(IStreamReaderUtility streamReaderUtility, IDeserializer deserializer)
         {
+            _streamReaderUtility = streamReaderUtility;
             _deserializer = deserializer;
         }
         public List<T> LoadJsonFromFile(string path)
         {
-            var jsonAsString = new StreamReader(path).ReadToEnd();
+            var jsonAsString = _streamReaderUtility.ReadStreamToEnd(path);
             return _deserializer.Deserialize<T>(jsonAsString);
         }
     }
