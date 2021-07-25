@@ -1,14 +1,19 @@
+using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace Togglr.Utilities
 {
-    public class JsonLoaderFromWeb<T>
+    public class JsonLoaderFromWeb<T> : IJsonLoaderFromWeb<T>
     {
-        public List<T> LoadJson(string path)
+        readonly IDeserializer _deserializer;
+        public JsonLoaderFromWeb(IDeserializer deserializer)
+        {
+            _deserializer = deserializer;
+        }
+        public List<T> LoadJsonFromWeb(Uri path)
         {
             var jsonAsString = FetchUtility.Fetch(path).Result;
-            return JsonConvert.DeserializeObject<List<T>>(jsonAsString);
+            return _deserializer.Deserialize<T>(jsonAsString);
         }
     }
 }
