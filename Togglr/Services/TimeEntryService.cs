@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Togglr.Models;
@@ -8,11 +9,16 @@ namespace Togglr.Services
     public class TimeEntryService
     {
         static List<TimeEntry> TimeEntries { get; set; }
-        static string Path;
-        public TimeEntryService(string path)
+
+        readonly IJsonLoaderFromWeb<TimeEntry> _jsonLoaderFromWeb;
+        static string _path;
+        static Uri _jsonUrl;
+        public TimeEntryService(IJsonLoaderFromWeb<TimeEntry> jsonLoaderFromWeb, string path)
         {
-            Path = path;
-            TimeEntries = new JsonLoaderFromWeb<TimeEntry>().LoadJson(path);
+            _jsonLoaderFromWeb = jsonLoaderFromWeb;
+            _path = path;
+            _jsonUrl = new Uri(_path);
+            TimeEntries = _jsonLoaderFromWeb.LoadJsonFromWeb(_jsonUrl);
         }
 
         public List<TimeEntry> GetAll()
@@ -27,7 +33,7 @@ namespace Togglr.Services
         public void Post(UserInput userInput)
         {
             // var enrichedUserInput = stuff
-            var timeEntry = new TimeEntry(userInput, Path);
+            var timeEntry = new TimeEntry(userInput, _path);
             TimeEntries.Add(timeEntry);
         }
 

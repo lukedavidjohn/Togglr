@@ -9,9 +9,12 @@ namespace Togglr.Services
     {
         public static List<T> Items { get; set; }
 
-        public TogglDataService(string path)
+        readonly IJsonLoaderFromFile<T> _jsonLoaderFromFile;
+
+        public TogglDataService(IJsonLoaderFromFile<T> jsonLoaderFromFile, string path)
         {
-            Items = new JsonLoaderFromFile<T>().LoadJson(path);
+            _jsonLoaderFromFile = jsonLoaderFromFile;
+            Items = _jsonLoaderFromFile.LoadJsonFromFile(path);
         }
 
         public List<T> GetAll() => Items;
