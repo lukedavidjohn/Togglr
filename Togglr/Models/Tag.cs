@@ -1,6 +1,6 @@
 namespace Togglr.Models
 {
-    public class Tag : TogglData
+    sealed class Tag : TogglData
     {
     }
 }

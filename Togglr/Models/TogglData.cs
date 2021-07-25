@@ -4,9 +4,9 @@ namespace Togglr.Models
 {
     public abstract class TogglData
     {
-        public int Id { get; set; }
-        public int Wid { get; set; }
-        public string Name{ get; set; }
-		public DateTime At{ get; set; }
+        public static int Id { get; }
+        public static int Wid { get; }
+        public static string Name{ get; }
+		public static DateTime At{ get; }
     }   
 }
