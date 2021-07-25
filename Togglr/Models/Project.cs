@@ -6,25 +6,25 @@ using Togglr.Services;
 
 namespace Togglr.Models
 {
-    sealed class Project : TogglData
+    public sealed class Project : TogglData
     {
-        public static bool Billable { get;  }
+        public bool Billable { get;  }
 
-		public static bool IsPrivate { get; }
+		public bool IsPrivate { get; }
 
-		public static bool Active { get; }
+		public bool Active { get; }
 
-		public static bool Template { get; }
+		public bool Template { get; }
 
-        public static DateTime CreatedAt { get; }
+        public DateTime CreatedAt { get; }
 
-		public static int Color { get; }
+		public int Color { get; }
 
-		public static string AutoEstimates { get; }
+		public string AutoEstimates { get; }
 
-		public static string ActualHours { get; }
+		public string ActualHours { get; }
 
-		public static string Hex_color { get; }
+		public string Hex_color { get; }
 
 		// [JsonIgnore]
 		// public IReadOnlyList<Task> Tasks { get; private set; }
