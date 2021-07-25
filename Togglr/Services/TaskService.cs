@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Togglr.Models;
 using Togglr.Utilities;
 
@@ -8,6 +9,6 @@ namespace Togglr.Services
         public TaskService(IJsonLoaderFromFile<Task> jsonLoaderFromFile) : base(jsonLoaderFromFile, "./TogglData/Tasks.json")
         {}
 
-        // public List<Task> GetByProject(int pid) => Items.FindAll(item => item.Pid == pid);
+        public List<Task> GetByProject(int pid) => Items.FindAll(item => item.Pid == pid);
     }
 }

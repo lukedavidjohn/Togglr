@@ -7,7 +7,7 @@ namespace Togglr.Services
 {
     public abstract class TogglDataService<T> where T : TogglData
     {
-        private readonly List<T> Items;
+        public readonly List<T> Items;
 
         readonly IJsonLoaderFromFile<T> _jsonLoaderFromFile;
 
