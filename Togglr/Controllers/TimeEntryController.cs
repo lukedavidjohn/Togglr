@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Togglr.Models;
 using Togglr.Services;
+using Togglr.Utilities;
 
 namespace Togglr.Controllers
 {
@@ -13,9 +14,9 @@ namespace Togglr.Controllers
 
         public TimeEntryService timeEntryService;
 
-        public TimeEntryController()
+        public TimeEntryController(IJsonLoaderFromWeb<TimeEntry> jsonLoaderFromWeb)
         {
-            timeEntryService = new TimeEntryService(timeEntryPath);
+            timeEntryService = new TimeEntryService(jsonLoaderFromWeb, timeEntryPath);
         }
 
         [HttpGet]
