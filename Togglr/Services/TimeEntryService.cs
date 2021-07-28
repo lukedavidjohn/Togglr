@@ -11,8 +11,11 @@ namespace Togglr.Services
         static List<TimeEntry> TimeEntries { get; set; }
 
         readonly IJsonLoaderFromWeb<TimeEntry> _jsonLoaderFromWeb;
+
         static string _path;
+
         static Uri _jsonUrl;
+        
         public TimeEntryService(IJsonLoaderFromWeb<TimeEntry> jsonLoaderFromWeb, string path)
         {
             _jsonLoaderFromWeb = jsonLoaderFromWeb;
@@ -26,24 +29,30 @@ namespace Togglr.Services
             return TimeEntries;
         }
 
-        public TimeEntry Get(int id) => TimeEntries.FirstOrDefault(timeEntry => timeEntry.Id == id);
+        public List<TimeEntry> GetAllSinceDate(DateTime sinceDate)
+        {
+            return TimeEntries.FindAll(timeEntry => timeEntry.Start > sinceDate);
+        }
+
+        // public TimeEntry Get(int id) => TimeEntries.FirstOrDefault(timeEntry => timeEntry.Id == id);
 
         public int GetCount() => TimeEntries.Count;
 
-        public void Post(UserInput userInput)
-        {
+        // public void Post(UserInput userInput)
+        // {
             // var enrichedUserInput = stuff
-            var timeEntry = new TimeEntry(userInput, _path);
-            TimeEntries.Add(timeEntry);
-        }
+            // var timeEntry = new TimeEntry(userInput, _path);
+            // TimeEntries.Add(timeEntry);
+        // }
 
-        public void Delete(int id)
-        {
-            var timeEntry = Get(id);
-            if(timeEntry is null)
-                return;
-
-            TimeEntries.Remove(timeEntry);
-        }
+        // public void Delete(int id)
+        // {
+        //     var timeEntry = Get(id);
+        //     if(timeEntry is null)
+        //     {
+        //         return;
+        //     }
+        //     TimeEntries.Remove(timeEntry);
+        // }
     }
 }
