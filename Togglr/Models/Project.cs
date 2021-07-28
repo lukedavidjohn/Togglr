@@ -1,30 +1,26 @@
 using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
-using Togglr.Services;
 
 namespace Togglr.Models
 {
     public sealed class Project : TogglData
     {
-        public bool Billable { get;  }
+        public bool Billable { get; set; }
 
-		public bool IsPrivate { get; }
+		public bool IsPrivate { get; set; }
 
-		public bool Active { get; }
+		public bool Active { get; set; }
 
-		public bool Template { get; }
+		public bool Template { get; set; }
 
-        public DateTime CreatedAt { get; }
+        public DateTime CreatedAt { get; set; }
 
-		public int Color { get; }
+		public int Color { get; set; }
 
-		public string AutoEstimates { get; }
+		public string AutoEstimates { get; set; }
 
-		public string ActualHours { get; }
+		public string ActualHours { get; set; }
 
-		public string Hex_color { get; }
+		public string Hex_color { get; set; }
 
 		// [JsonIgnore]
 		// public IReadOnlyList<Task> Tasks { get; private set; }
@@ -35,10 +31,8 @@ namespace Togglr.Models
         // [OnDeserialized]
 		// internal void GetTasks(StreamingContext context, ITogglDataService<Task> taskService)
 		// {
-		// 	_taskService = taskService;
-		// 	Tasks = _taskService.GetAll();
-		// 	// TaskService taskService = new("./TogglData/Tasks.json");
-		// 	// Tasks = taskService.GetByProject(Id);
+			// _taskService = taskService;
+			// Tasks = _taskService.GetByProject();
 		// }
 		// internal void ActivateProject()
 		// {
