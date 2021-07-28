@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using Newtonsoft.Json;
 using Togglr.Models;
 using Togglr.Utilities;
 
@@ -14,12 +14,17 @@ namespace Togglr.Services
 
         static string _path;
 
+        readonly IDeserializer _deserializer;
+
         static Uri _jsonUrl;
+        readonly IPostUtility<TimeEntry> _postUtility;
         
-        public TimeEntryService(IJsonLoaderFromWeb<TimeEntry> jsonLoaderFromWeb, string path)
+        public TimeEntryService(IPostUtility<TimeEntry> postUtility, IJsonLoaderFromWeb<TimeEntry> jsonLoaderFromWeb, string path, IDeserializer deserializer)
         {
+            _postUtility = postUtility;
             _jsonLoaderFromWeb = jsonLoaderFromWeb;
             _path = path;
+            _deserializer = deserializer;
             _jsonUrl = new Uri(_path);
             TimeEntries = _jsonLoaderFromWeb.LoadJsonFromWeb(_jsonUrl);
         }
@@ -34,16 +39,15 @@ namespace Togglr.Services
             return TimeEntries.FindAll(timeEntry => timeEntry.Start > sinceDate);
         }
 
-        // public TimeEntry Get(int id) => TimeEntries.FirstOrDefault(timeEntry => timeEntry.Id == id);
-
         public int GetCount() => TimeEntries.Count;
 
-        // public void Post(UserInput userInput)
-        // {
-            // var enrichedUserInput = stuff
-            // var timeEntry = new TimeEntry(userInput, _path);
-            // TimeEntries.Add(timeEntry);
-        // }
+        public async System.Threading.Tasks.Task Post(string body)
+        {
+            // "{"Created_With": "Snowball", "pid": 157025838, "tid": 27896544, "billable": true, "start": "2021/07/06T16:00:00", "stop": "2021/07/06T17:00:00", "description": "Slack user reporting", "tags": ["ALPINE"], "uid": 5400208, "wid": 2500287}"
+            var bodyParts = _deserializer.Deserialize<TimeEntry>(body);
+            bodyParts.SetTimes();
+            await _postUtility.PostAsync("Basic", "YmZmYjI1NmVhNGE1MmU2ZTM3OGJkYmZkOWU4NDdkYmM6YXBpX3Rva2Vu", new Uri("https://track.toggl.com/api/v9/time_entries"), bodyParts);
+        }
 
         // public void Delete(int id)
         // {
