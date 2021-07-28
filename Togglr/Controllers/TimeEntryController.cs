@@ -16,10 +16,12 @@ namespace Togglr.Controllers
         readonly string timeEntryPath = "https://track.toggl.com/api/v9/me/time_entries";
 
         public TimeEntryService timeEntryService;
+        readonly IStreamReaderUtility _streamReaderUtility;
 
-        public TimeEntryController(IPostUtility<TimeEntry> postUtility, IJsonLoaderFromWeb<TimeEntry> jsonLoaderFromWeb, IDeserializer deserializer)
+        public TimeEntryController(IPostUtility<TimeEntry> postUtility, IJsonLoaderFromWeb<TimeEntry> jsonLoaderFromWeb, IDeserializer deserializer, IStreamReaderUtility streamReaderUtility)
         {
             timeEntryService = new TimeEntryService(postUtility, jsonLoaderFromWeb, timeEntryPath, deserializer);
+            _streamReaderUtility = streamReaderUtility;
         }
 
         [HttpGet]
@@ -39,10 +41,11 @@ namespace Togglr.Controllers
         public ActionResult<int> GetCount() => timeEntryService.GetCount();
 
         [HttpPost]
-        public async System.Threading.Tasks.Task Post()
+        public async System.Threading.Tasks.Task<ActionResult> Post()
         {
-            var body = await new StreamReader(Request.Body).ReadToEndAsync();
-            await timeEntryService.Post(body);
+            var body = await _streamReaderUtility.ReadStreamToEnd(Request.Body);
+            var response = await timeEntryService.Post(body);
+            return Created(Request.Path, response);
         }
     }
 }
