@@ -15,7 +15,7 @@ namespace Togglr.Utilities
         public List<T> LoadJsonFromFile(string path)
         {
             var jsonAsString = _streamReaderUtility.ReadStreamToEnd(path);
-            return _deserializer.Deserialize<T>(jsonAsString);
+            return _deserializer.DeserializeList<T>(jsonAsString);
         }
     }
 }

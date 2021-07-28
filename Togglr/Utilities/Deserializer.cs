@@ -5,7 +5,12 @@ namespace Togglr.Utilities
 {
     public class Deserializer : IDeserializer
     {
-        public List<T> Deserialize<T>(string path)
+        public T Deserialize<T>(string path)
+        {
+            return JsonConvert.DeserializeObject<T>(path);
+        }
+
+        public List<T> DeserializeList<T>(string path)
         {
             return JsonConvert.DeserializeObject<List<T>>(path);
         }

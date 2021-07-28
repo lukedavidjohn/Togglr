@@ -4,6 +4,8 @@ namespace Togglr.Utilities
 {
     public interface IDeserializer
     {
-        public List<T> Deserialize<T>(string path);
+        public T Deserialize<T>(string path);
+
+        public List<T> DeserializeList<T>(string path);
     }
 }

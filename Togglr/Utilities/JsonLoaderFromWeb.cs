@@ -18,7 +18,7 @@ namespace Togglr.Utilities
         public List<T> LoadJsonFromWeb(Uri path)
         {
             var jsonAsString = _fetchUtility.FetchAsync(path).Result;
-            return _deserializer.Deserialize<T>(jsonAsString);
+            return _deserializer.DeserializeList<T>(jsonAsString);
         }
     }
 }
