@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Threading.Tasks;
 using Togglr.Models;
 using Togglr.Utilities;
 
 namespace Togglr.Services
 {
-    public class TimeEntryService
+    public class TimeEntryService : ITimeEntryService
     {
         static List<TimeEntry> TimeEntries { get; set; }
 
@@ -19,11 +19,11 @@ namespace Togglr.Services
         static Uri _jsonUrl;
         readonly IPostUtility<TimeEntry> _postUtility;
         
-        public TimeEntryService(IPostUtility<TimeEntry> postUtility, IJsonLoaderFromWeb<TimeEntry> jsonLoaderFromWeb, string path, IDeserializer deserializer)
+        public TimeEntryService(IPostUtility<TimeEntry> postUtility, IJsonLoaderFromWeb<TimeEntry> jsonLoaderFromWeb, IDeserializer deserializer)
         {
             _postUtility = postUtility;
             _jsonLoaderFromWeb = jsonLoaderFromWeb;
-            _path = path;
+            _path = "https://track.toggl.com/api/v9/me/time_entries";
             _deserializer = deserializer;
             _jsonUrl = new Uri(_path);
             TimeEntries = _jsonLoaderFromWeb.LoadJsonFromWeb(_jsonUrl);

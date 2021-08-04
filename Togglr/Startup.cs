@@ -28,12 +28,14 @@ namespace Togglr
             services.AddSingleton<ITogglDataService<Project>, ProjectService>();
             services.AddSingleton<ITogglDataService<Tag>, TagService>();
             services.AddSingleton<ITogglDataService<Task>, TaskService>();
+            services.AddSingleton<ITimeEntryService, TimeEntryService>();
             services.AddSingleton<IStreamReaderUtility, StreamReaderUtility>();
             services.AddSingleton<IFetchUtility, FetchUtility>();
             services.AddSingleton(typeof(IPostUtility<>), typeof(PostUtility<>));
             services.AddSingleton(typeof(IJsonLoaderFromFile<>), typeof(JsonLoaderFromFile<>));
             services.AddSingleton(typeof(IJsonLoaderFromWeb<>), typeof(JsonLoaderFromWeb<>));
             services.AddSingleton<IDeserializer, Deserializer>();
+            services.AddMvc();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
