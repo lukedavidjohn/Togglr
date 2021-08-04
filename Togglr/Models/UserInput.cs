@@ -1,17 +1,20 @@
 using System;
+using System.Collections.Generic;
 
 namespace Togglr.Models
 {
     public class UserInput
     {
-		public string Description { get; set; }
-        public string Project { get; set; }
-        public string Task { get; set; }
-        public string Tags  { get; set; }
-        public DateTime Date { get; set; }
-        public string StartHour { get; set; }
-        public string StartMinute { get; set; }
-        public string StopHour { get; set; }
-        public string StopMinute { get; set; }
+        public string Created_With { get; set; }
+        public int Pid { get; set; }
+        public int Tid { get; set; }
+        public bool Billable { get; set; }
+        public string Date { get; set; }
+        public string Start { get; set; }
+        public string Stop { get; set; }
+        public string Description { get; set; }
+        public List<Tag> Tags { get; set; }
+        public int Uid { get; set; }
+        public int Wid { get; set; }
     }
 }
