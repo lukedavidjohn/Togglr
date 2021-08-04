@@ -1,0 +1,165 @@
+@model Togglr.Models.ViewModelsData 
+
+@{ 
+    ViewData["Title"] = "Index"; 
+    var timeEntries = Model.TimeEntries; 
+    var projects = Model.Projects; 
+    var tags = Model.Tags;
+	var tasks = Model.Tasks;
+}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			#timeEntries {
+				font-family: Arial, Helvetica, sans-serif;
+				border-collapse: collapse;
+				width: 100%;
+			}
+
+			#timeEntries td,
+			#timeEntries th {
+				border: 1px solid #ddd;
+				padding: 8px;
+			}
+
+			#timeEntries tr:nth-child(even) {
+				background-color: #f2f2f2;
+			}
+
+			#timeEntries tr:hover {
+				background-color: #ddd;
+			}
+
+			#timeEntries th {
+				padding-top: 12px;
+				padding-bottom: 12px;
+				text-align: left;
+				background-color: #04aa6d;
+				color: white;
+			}
+		</style>
+	</head>
+
+	<body>
+		<script>
+			const getTasksByProject = ({ target: { value } }) => {
+				const taskSelect = document.getElementById("taskSelect");
+				while (taskSelect.firstChild) {
+					taskSelect.removeChild(taskSelect.lastChild);
+				}
+
+				const defaultOption = document.createElement("option");
+				defaultOption.text = "--select a task--";
+				taskSelect.append(defaultOption);
+
+				const tasks = @Json.Serialize(Model.Tasks);
+				const selectedPid = value;
+				const tasksByProject = tasks
+					.filter(({ pid }) => {
+						return pid == selectedPid;
+					})
+					.forEach(({ name, id }) => {
+						const option = document.createElement("option");
+						option.text = name;
+						option.value = id;
+						taskSelect.append(option);
+					})
+
+			}
+		</script>
+		<table id="timeEntries">
+			<tr>
+				<th>Description</th>
+				<th>Duration</th>
+				<th>ProjectId</th>
+				<th>Start</th>
+				<th>Stop</th>
+				<th>Tags</th>
+				<th>TaskId</th>
+			</tr>
+			@for (var i = 0; i < timeEntries.Count; i++) { var timeEntry = timeEntries[i];
+			<tr>
+				<td>@timeEntry.Description</td>
+				<td>@timeEntry.Duration</td>
+				<td>@timeEntry.Pid</td>
+				<td>@timeEntry.Start</td>
+				<td>@timeEntry.Stop</td>
+				<td>@timeEntry.Tags[0]</td>
+				<td>@timeEntry.Tid</td>
+			</tr>
+			}
+		</table>
+
+		@using (Html.BeginForm()) {
+			<fieldset>
+				Description
+				@Html.TextBoxFor(Model => Model.UserInput.Description, new { @class="form-control" })
+
+				Project
+				@{
+					var projectSelect = new List<SelectListItem>();
+					foreach (var project in projects)
+					{
+						projectSelect.Add(new SelectListItem { Text = project.Name.ToString(), Value = project.Id.ToString() });
+					}
+				}
+				@Html.DropDownListFor(Model => Model.UserInput.Pid, projectSelect, "--select a project--", new { @id="projectSelect", @class="form-control", @onchange="getTasksByProject(event)" });
+
+				Task
+				@Html.DropDownListFor(Model => Model.UserInput.Tid, new List<SelectListItem>(){}, "--select a task--", new { @id="taskSelect", @class="form-control" });
+
+				Tag
+				@{
+					var tagSelect = new List<SelectListItem>();
+					foreach (var tag in tags)
+					{
+						tagSelect.Add(new SelectListItem { Text = tag.Name.ToString(), Value = tag.Id.ToString() });
+					}
+				}
+				<input id="tagInput" />
+				@Html.DropDownListFor(Model => Model.UserInput.Tags, tagSelect, "--select a tag--", new { @id="tagSelect", @class="form-control" })
+
+				Date
+				<input name="Date" type="date" />
+			
+				Start
+				<input name="Start" type="time" />
+			
+				Stop
+				<input name="Stop" type="time" />
+
+				<p>
+					<input type="submit" value="Submit"/>
+				</p>
+			</fieldset>
+		}
+
+		<script>
+			const tagInput = document.getElementById("tagInput");
+			const tagSearch = (event) => {
+				const tagSelect = document.getElementById("tagSelect");
+				while (tagSelect.firstChild) {
+					tagSelect.removeChild(tagSelect.lastChild);
+				}
+
+				const input = event.target.value.toLowerCase();
+				const tags = @Json.Serialize(Model.Tags)
+				const filteredTags = tags.filter(tag => {
+					const regex = new RegExp(input, "i");
+					return regex.test(tag.name);
+				})
+				const options = filteredTags
+					.map(({ name, id }) => {
+						const option = document.createElement("option");
+						option.text = name;
+						option.value = id;
+						tagSelect.append(option);
+						return 		option;
+					})
+			};
+			tagInput.addEventListener("input", tagSearch);
+		</script>
+	</body>
+</html>
