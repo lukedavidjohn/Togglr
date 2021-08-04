@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Togglr.Models;
 using Togglr.Services;
@@ -11,16 +11,17 @@ namespace Togglr.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class TimeEntryController : ControllerBase
+    public class TimeEntryController : Controller
     {
         readonly string timeEntryPath = "https://track.toggl.com/api/v9/me/time_entries";
 
         public TimeEntryService timeEntryService;
+
         readonly IStreamReaderUtility _streamReaderUtility;
 
         public TimeEntryController(IPostUtility<TimeEntry> postUtility, IJsonLoaderFromWeb<TimeEntry> jsonLoaderFromWeb, IDeserializer deserializer, IStreamReaderUtility streamReaderUtility)
         {
-            timeEntryService = new TimeEntryService(postUtility, jsonLoaderFromWeb, timeEntryPath, deserializer);
+            timeEntryService = new TimeEntryService(postUtility, jsonLoaderFromWeb, deserializer);
             _streamReaderUtility = streamReaderUtility;
         }
 
@@ -41,7 +42,7 @@ namespace Togglr.Controllers
         public ActionResult<int> GetCount() => timeEntryService.GetCount();
 
         [HttpPost]
-        public async System.Threading.Tasks.Task<ActionResult> Post()
+        public async Task<ActionResult> Post()
         {
             var body = await _streamReaderUtility.ReadStreamToEnd(Request.Body);
             var response = await timeEntryService.Post(body);
