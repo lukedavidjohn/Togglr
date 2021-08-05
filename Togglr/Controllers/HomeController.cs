@@ -43,7 +43,6 @@ namespace Togglr.Controllers
             // validate userinput
             // send to toggl
             
-            // Console.WriteLine(userInput.Description);
             ViewData["Description"] = userInput.Description;
             ViewData["Pid"] = userInput.Pid;
             ViewData["Tid"] = userInput.Tid;
