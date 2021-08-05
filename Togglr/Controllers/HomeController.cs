@@ -40,8 +40,18 @@ namespace Togglr.Controllers
         [HttpPost("~/[controller]/[action]")]
         public ActionResult Index(UserInput userInput)
         {
-            Console.WriteLine(userInput.Pid);
-            return View("Information");
+            // validate userinput
+            // send to toggl
+            
+            // Console.WriteLine(userInput.Description);
+            ViewData["Description"] = userInput.Description;
+            ViewData["Pid"] = userInput.Pid;
+            ViewData["Tid"] = userInput.Tid;
+            ViewData["Tags"] = userInput.Tags;
+            ViewData["Date"] = userInput.Date;
+            ViewData["Start"] = userInput.Start;
+            ViewData["Stop"] = userInput.Stop;
+            return View("FormLanding");
         }
     }
 }
