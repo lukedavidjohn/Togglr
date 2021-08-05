@@ -14,10 +14,10 @@ namespace Togglr.Utilities
             _clientFactory = clientFactory;
         }
 
-        public async Task<string> FetchAsync(Uri url)
+        public async Task<string> FetchAsync(Uri url, string authScheme, string authToken)
         {
             var client = _clientFactory.CreateClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", "YmZmYjI1NmVhNGE1MmU2ZTM3OGJkYmZkOWU4NDdkYmM6YXBpX3Rva2Vu");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(authScheme, authToken);
             HttpResponseMessage response = await client.GetAsync(url);
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsStringAsync();

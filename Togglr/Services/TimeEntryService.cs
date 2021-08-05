@@ -18,6 +18,9 @@ namespace Togglr.Services
 
         static Uri _jsonUrl;
         readonly IPostUtility<TimeEntry> _postUtility;
+
+        readonly string authScheme = "Basic";
+        readonly string authToken = "";
         
         public TimeEntryService(IPostUtility<TimeEntry> postUtility, IJsonLoaderFromWeb<TimeEntry> jsonLoaderFromWeb, IDeserializer deserializer)
         {
@@ -26,7 +29,7 @@ namespace Togglr.Services
             _path = "https://track.toggl.com/api/v9/me/time_entries";
             _deserializer = deserializer;
             _jsonUrl = new Uri(_path);
-            TimeEntries = _jsonLoaderFromWeb.LoadJsonFromWeb(_jsonUrl);
+            TimeEntries = _jsonLoaderFromWeb.LoadJsonFromWeb(_jsonUrl, authScheme, authToken);
         }
 
         public List<TimeEntry> GetAll()
@@ -41,12 +44,12 @@ namespace Togglr.Services
 
         public int GetCount() => TimeEntries.Count;
 
-        public async System.Threading.Tasks.Task<string> Post(string body)
+        public async System.Threading.Tasks.Task<string> Post(string body, string authScheme, string authToken)
         {
             // "{"Created_With": "Snowball", "pid": 157025838, "tid": 27896544, "billable": true, "start": "2021/07/06T16:00:00", "stop": "2021/07/06T17:00:00", "description": "Slack user reporting", "tags": ["ALPINE"], "uid": 5400208, "wid": 2500287}"
             var bodyParts = _deserializer.Deserialize<TimeEntry>(body);
             bodyParts.SetTimes();
-            var response = await _postUtility.PostAsync("Basic", "YmZmYjI1NmVhNGE1MmU2ZTM3OGJkYmZkOWU4NDdkYmM6YXBpX3Rva2Vu", new Uri("https://track.toggl.com/api/v9/time_entries"), bodyParts);
+            var response = await _postUtility.PostAsync(authScheme, authToken, new Uri("https://track.toggl.com/api/v9/time_entries"), bodyParts);
             return response;
         }
 

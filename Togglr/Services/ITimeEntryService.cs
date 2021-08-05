@@ -13,6 +13,6 @@ namespace Togglr.Services
 
         public int GetCount();
 
-        public Task<string> Post(string body);
+        public Task<string> Post(string body, string authScheme, string authToken);
     }
 }
