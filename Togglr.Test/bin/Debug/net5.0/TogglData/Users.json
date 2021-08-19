@@ -1,0 +1,14 @@
+[
+	{
+		"name": "Jay",
+		"id": 1,
+		"authToken": "1a2b3c",
+		"isAdminUser": false
+	},
+	{
+		"name": "Silent Bob",
+		"id": 2,
+		"authToken": "4d5e6f",
+		"isAdminUser": true
+	}
+]
