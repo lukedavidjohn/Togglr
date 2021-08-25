@@ -21,8 +21,6 @@ namespace Togglr.Models
         }
         public TimeEntry()
         {}
-        
-        public DateTime At { get; set; }
 
         public bool Billable { get; set; }
 
@@ -31,8 +29,6 @@ namespace Togglr.Models
         public string Description { get; set; }
 
         public int Duration { get; set; }
-
-        public bool Duronly { get; set; }
 
         public int Pid { get; set; }
 
