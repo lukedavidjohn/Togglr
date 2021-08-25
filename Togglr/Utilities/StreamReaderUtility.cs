@@ -1,5 +1,4 @@
 using System.IO;
-using System.Threading.Tasks;
 
 namespace Togglr.Utilities
 {
@@ -8,11 +7,6 @@ namespace Togglr.Utilities
         public string ReadStreamToEnd(string path)
         {
             return new StreamReader(path).ReadToEnd();
-        }
-        
-        public Task<string> ReadStreamToEnd(Stream stream)
-        {
-            return new StreamReader(stream).ReadToEndAsync();
         }
     }
 }

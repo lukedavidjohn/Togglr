@@ -6,7 +6,6 @@ namespace Togglr.Utilities
     public class JsonLoaderFromWeb<T> : IJsonLoaderFromWeb<T>
     {
         readonly IFetchUtility _fetchUtility;
-
         readonly IDeserializer _deserializer;
         public JsonLoaderFromWeb(IFetchUtility fetchUtility, IDeserializer deserializer)
         {

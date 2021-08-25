@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Togglr.Models;
 using Togglr.Services;
-using Newtonsoft.Json;
 
 namespace Togglr.Controllers
 {
@@ -13,7 +10,6 @@ namespace Togglr.Controllers
         readonly ITogglDataService<Project> _projectService;
         readonly ITogglDataService<Tag> _tagService;
         readonly ITogglDataService<Task>_taskService;
-
         public HomeController(ITimeEntryService timeEntryService, ITogglDataService<Project> projectService, ITogglDataService<Tag> tagService, ITogglDataService<Task> taskService)
         {
             _timeEntryService = timeEntryService;
@@ -21,10 +17,8 @@ namespace Togglr.Controllers
             _tagService = tagService;
             _taskService = taskService;
         }
-
         [HttpGet("~/[controller]/[action]")]
-        public 
-        ActionResult Index()
+        public ActionResult Index()
         {
             var viewModelsData = new ViewModelsData
             {
@@ -38,18 +32,17 @@ namespace Togglr.Controllers
             return View(viewModelsData);
         }
         [HttpPost("~/[controller]/[action]")]
-        public ActionResult Index(UserInput userInput)
+        public async System.Threading.Tasks.Task<ActionResult> Index(UserInput userInput)
         {
-            // validate userinput
-            // send to toggl
-            
-            ViewData["Description"] = userInput.Description;
-            ViewData["Pid"] = userInput.Pid;
-            ViewData["Tid"] = userInput.Tid;
-            ViewData["Tags"] = userInput.Tag;
-            ViewData["Date"] = userInput.Date;
-            ViewData["Start"] = userInput.Start;
-            ViewData["Stop"] = userInput.Stop;
+            var newTimeEntry = _timeEntryService.CreateNewTimeEntry(userInput, _projectService);
+            await _timeEntryService.Post(newTimeEntry, "Basic", "YmZmYjI1NmVhNGE1MmU2ZTM3OGJkYmZkOWU4NDdkYmM6YXBpX3Rva2Vu");
+
+            ViewData["Description"] = newTimeEntry.Description;
+            ViewData["Pid"] = newTimeEntry.Pid;
+            ViewData["Tid"] = newTimeEntry.Tid;
+            ViewData["Tags"] = newTimeEntry.Tags[0];
+            ViewData["Start"] = newTimeEntry.Start;
+            ViewData["Stop"] = newTimeEntry.Stop;
             return View("FormLanding");
         }
     }
