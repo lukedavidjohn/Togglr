@@ -46,7 +46,7 @@ namespace Togglr.Controllers
             ViewData["Description"] = userInput.Description;
             ViewData["Pid"] = userInput.Pid;
             ViewData["Tid"] = userInput.Tid;
-            ViewData["Tags"] = userInput.Tags;
+            ViewData["Tags"] = userInput.Tag;
             ViewData["Date"] = userInput.Date;
             ViewData["Start"] = userInput.Start;
             ViewData["Stop"] = userInput.Stop;
