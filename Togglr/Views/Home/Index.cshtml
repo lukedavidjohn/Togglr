@@ -115,20 +115,20 @@
 					var tagSelect = new List<SelectListItem>();
 					foreach (var tag in tags)
 					{
-						tagSelect.Add(new SelectListItem { Text = tag.Name.ToString(), Value = tag.Id.ToString() });
+						tagSelect.Add(new SelectListItem { Text = tag.Name.ToString(), Value = tag.Name.ToString() });
 					}
 				}
 				<input id="tagInput" />
 				@Html.DropDownListFor(Model => Model.UserInput.Tag, tagSelect, "--select a tag--", new { @id="tagSelect", @class="form-control" })
 
 				Date
-				<input name="Date" type="date" />
+				@Html.TextBoxFor(Model => Model.UserInput.Date, new { @type="date" })
 			
 				Start
-				<input name="Start" type="time" />
+				@Html.TextBoxFor(Model => Model.UserInput.Start, new { @type="time" })
 			
 				Stop
-				<input name="Stop" type="time" />
+				@Html.TextBoxFor(Model => Model.UserInput.Stop, new { @type="time" })
 
 				<p>
 					<input type="submit" value="Submit"/>
